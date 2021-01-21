@@ -152,7 +152,7 @@
     <ClCompile Include="BoardChess.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="SlotBoard.cpp" />
+    <ClCompile Include="Piece.cpp" />
     <ClCompile Include="WindowGame.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -161,7 +161,7 @@
   <ItemGroup>
     <ClInclude Include="BoardChess.h" />
     <ClInclude Include="Game.h" />
-    <ClInclude Include="SlotBoard.h" />
+    <ClInclude Include="Piece.h" />
     <ClInclude Include="WindowGame.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

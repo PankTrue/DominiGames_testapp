@@ -1,16 +1,16 @@
 #include "BoardChess.h"
 
-void BoardChess::SetImageBoard(const char* path)
+void BoardChess::SetImageBoard(const char* path, WindowGame& window)
 {
 	_boardTexture.loadFromFile(path);
+
+	_boardSprite.setTexture(_boardTexture);
+
+	_boardSprite.setScale(window.GetWindowSize().x / _boardSprite.getLocalBounds().width,
+		window.GetWindowSize().y / _boardSprite.getLocalBounds().height);
 }
 
-sf::Sprite& BoardChess::GetImageBoardSprite(sf::Vector2u &windowSize)
+sf::Sprite& BoardChess::GetImageBoardSprite()
 {
-	_boardSprite.setTexture(_boardTexture,true);
-
-	_boardSprite.setScale(	windowSize.x / _boardSprite.getLocalBounds().width,
-							windowSize.y / _boardSprite.getLocalBounds().height);
-
 	return _boardSprite;
 }

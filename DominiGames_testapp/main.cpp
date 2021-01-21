@@ -7,7 +7,6 @@ int main()
 	Game g;
 	
 	g.Init();
-	g.Start();
 
     return 0;
 }

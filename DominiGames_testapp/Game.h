@@ -3,6 +3,8 @@
 #include "BoardChess.h"
 #include "WindowGame.h"
 
+#include <SFML/Graphics.hpp>
+
 
 class Game
 {
