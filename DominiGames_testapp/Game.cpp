@@ -18,17 +18,20 @@ void Game::Init()
 	_boardChess.SetImageBoard("Resource/board.png", _windowGame);
 	Piece::InitPeaces("Resource/w_pawn.png","Resource/b_pawn.png",0.6,0.6);
 
+
+
 	for (int i = 0; i < 3; i++)
 		for (int j = 0; j < 3; j++)
-			_boardChess._board[i][j].setPieceType(PieceType::Black);
+			_boardChess._board[j][i].setPieceType(PieceType::Black);
 
 	for (int i = 7; i > 4; i--)
 		for (int j = 7; j > 4; j--)
-			_boardChess._board[i][j].setPieceType(PieceType::White);
+			_boardChess._board[j][i].setPieceType(PieceType::White);
 
 
 
 	sf::Event e;
+	Piece *selectedPiece = NULL;
 
 	while (_windowGame.IsOpen())
 	{
@@ -38,36 +41,40 @@ void Game::Init()
 
 
 		//draw pieces
-		sf::Vector2f offset = { 56,50 };
+		_boardChess.DrawPieces(_windowGame);
 
-		for (int i = 0; i < 8; i++)
+
+
+		if (selectedPiece != NULL && selectedPiece->getIsSelected())
 		{
-			for (int j = 0; j < 8; j++)
+
+			auto mousePosition = sf::Mouse::getPosition(*(sf::Window *)(_windowGame.GetWindowGame()));
+			auto piece = selectedPiece->getPieceSprite();
+			if (piece != NULL)
 			{
-				if (_boardChess._board[i][j].getPieceType() == PieceType::White)
-				{
-					Piece::WhitePeace.setPosition(offset.x,offset.y);
-					_windowGame.Draw(Piece::WhitePeace);
-				}
-				else if (_boardChess._board[i][j].getPieceType() == PieceType::Black)
-				{
-					Piece::BlackPeace.setPosition(offset.x, offset.y);
-					_windowGame.Draw(Piece::BlackPeace);
-				}
-				offset.x += 90;
+				piece->setPosition(mousePosition.x - 25, mousePosition.y - 25);
+				_windowGame.Draw(*piece);
 			}
-			offset.x = 50;
-			offset.y += 89;
 		}
-
-
+		
 
 		while (_windowGame.GetWindowGame()->pollEvent(e))
 		{
-			if (e.type == sf::Event::MouseButtonPressed)
+			if (e.type == sf::Event::MouseButtonReleased)
 			{
-				std::cout << e.mouseButton.x << " | " << e.mouseButton.y << std::endl;
-				continue;
+				if (selectedPiece != NULL)
+				{
+					selectedPiece->setIsSelected(false);
+					selectedPiece = NULL;
+				}
+			}
+			else if (e.type == sf::Event::MouseButtonPressed)
+			{
+				selectedPiece = _boardChess.GetPieceByPosition(e.mouseButton.x, e.mouseButton.y);
+				if (selectedPiece != NULL)
+				{
+					selectedPiece->setIsSelected(true);
+				}
 			}
 			else if (e.type == sf::Event::Closed)
 			{
@@ -76,13 +83,7 @@ void Game::Init()
 		}
 			
 		_windowGame.EndDraw();
-
-		//sf::sleep(sf::milliseconds(100));
 	}
-
-
-
-	//}
 
 
 

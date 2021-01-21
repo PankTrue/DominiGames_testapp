@@ -16,8 +16,13 @@ public:
 	Piece(PieceType peaceType);
 	Piece();
 
+	sf::Sprite* getPieceSprite();
+
 	PieceType getPieceType();
 	void setPieceType(PieceType type);
+
+	bool getIsSelected();
+	void setIsSelected(bool selected);
 
 	static void InitPeaces(std::string whitePeacePath, std::string blackPeacePath, float scaleX, float scaleY);
 
@@ -26,6 +31,7 @@ public:
 
 private:
 	PieceType _pieceType;
+	bool _isSelected;
 
 
 };
