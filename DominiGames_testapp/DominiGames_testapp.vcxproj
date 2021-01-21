@@ -149,7 +149,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BoardChess.cpp" />
+    <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="SlotBoard.cpp" />
+    <ClCompile Include="WindowGame.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resource\board.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BoardChess.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="SlotBoard.h" />
+    <ClInclude Include="WindowGame.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
