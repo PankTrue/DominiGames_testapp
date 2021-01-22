@@ -11,6 +11,7 @@ int main()
 	Game g;
 	
 	g.Init();
+	g.FillBoard();
 	g.Start();
 
     return 0;

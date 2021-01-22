@@ -21,16 +21,16 @@ public:
 	bool TryGetPiecePositionByCoordinates(int x, int y, sf::Vector2u &pos);
 	bool TryMovePiece(sf::Vector2u &destPos, sf::Vector2u &sourcePos);
 
+	void CalcCellSizeAndBorderOffset(sf::Vector2u &windowSize);
+
 private:
 	Piece _board[8][8];
 	void MovePiece(Piece* dest, Piece* source);
 
-
-	
 	sf::Texture _boardTexture;
 	sf::Sprite _boardSprite;
 
-	constexpr static int _cellSize = 90; 
-	sf::Vector2f _borderOffset = { 55,48 };
+	sf::Vector2f _cellSize;
+	sf::Vector2f _borderOffset;
 };
 

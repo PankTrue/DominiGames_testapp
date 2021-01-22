@@ -7,15 +7,20 @@ Game::Game()
 Game::~Game(){ }
 
 
-void Game::Init()
+void Game::Init(sf::Vector2u windowSize)
 {
-	_windowGame.SetUp("PseudoChess for DominiGames", { 800,800 });
+	_windowGame.SetUp(_title, windowSize);
 	_windowGame.GetWindowGame()->setFramerateLimit(60);
 
-
+	_boardChess.CalcCellSizeAndBorderOffset(_windowGame.GetWindowSize());
+	
 	_boardChess.SetImageBoard("Resource/board.png", _windowGame);
-	Piece::InitPeaces("Resource/w_pawn.png","Resource/b_pawn.png",0.6f,0.6f);
+	Piece::InitPeaces("Resource/w_pawn.png","Resource/b_pawn.png",
+		_windowGame.GetWindowSize().x / 1500.0f, _windowGame.GetWindowSize().y / 1400.0f);
+}
 
+void Game::FillBoard()
+{
 	//fill black pieces
 	for (int i = 0; i < 3; i++)
 		for (int j = 0; j < 3; j++)
@@ -59,7 +64,8 @@ void Game::DrawSelectedPiece()
 		auto piece = selectedPiece->getPieceSprite();
 		if (piece != NULL)
 		{
-			piece->setPosition(mousePosition.x - 25, mousePosition.y - 25);
+			piece->setPosition(	mousePosition.x - (float)_windowGame.GetWindowSize().x / 32.0f,
+								mousePosition.y - (float)_windowGame.GetWindowSize().y / 32.0f);
 			_windowGame.Draw(*piece);
 		}
 	}
@@ -152,6 +158,11 @@ void Game::InputHandle()
 				selectedPiece = _boardChess.GetPieceByPosition(selectedPos);
 				selectedPiece->setIsSelected(true);
 			}
+		}
+		else if (e.type == sf::Event::Resized)
+		{
+			std::cout << "Resize: " << e.size.height << " | " << e.size.width << std::endl;
+			this->Init({ e.size.width, e.size.height });
 		}
 		else if (e.type == sf::Event::Closed)
 		{

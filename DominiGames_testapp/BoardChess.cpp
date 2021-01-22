@@ -20,7 +20,7 @@ void BoardChess::DrawPieces(WindowGame &windowGame)
 		{
 			if (_board[j][i].getIsSelected())
 			{
-				offset.x += _cellSize;
+				offset.x += _cellSize.x;
 				continue;
 			}
 
@@ -35,11 +35,11 @@ void BoardChess::DrawPieces(WindowGame &windowGame)
 				windowGame.Draw(Piece::BlackPeace);
 			}
 
-			offset.x += _cellSize;
+			offset.x += _cellSize.x;
 		}
 
 		offset.x = _borderOffset.x;
-		offset.y += _cellSize;
+		offset.y += _cellSize.y;
 	}
 
 }
@@ -58,8 +58,8 @@ bool BoardChess::TryGetPiecePositionByCoordinates(int x, int y, sf::Vector2u &po
 {
 	sf::Vector2u result;
 	
-	float _x = ((x - _borderOffset.x) / _cellSize);
-	float _y = ((y - _borderOffset.y) / _cellSize);
+	float _x = ((x - _borderOffset.x) / _cellSize.x);
+	float _y = ((y - _borderOffset.y) / _cellSize.y);
 
 	if (_x >= 0 && _y >= 0 && _x <= 8 && _y <= 8)
 	{
@@ -94,6 +94,15 @@ bool BoardChess::TryMovePiece(sf::Vector2u& destPos, sf::Vector2u& sourcePos)
 		}
 	}
 	return false;
+}
+
+void BoardChess::CalcCellSizeAndBorderOffset(sf::Vector2u& windowSize)
+{
+	_cellSize.x = (float)windowSize.x / 9.0f;
+	_cellSize.y = (float)windowSize.y / 9.0f;
+
+	_borderOffset.x = (float)windowSize.x / 13.0f;
+	_borderOffset.y = (float)windowSize.y / 15.0f;
 }
 
 void BoardChess::MovePiece(Piece *dest, Piece *source)

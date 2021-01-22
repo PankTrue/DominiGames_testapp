@@ -18,7 +18,8 @@ public:
 	Game();
 	~Game();
 
-	void Init();
+	void Init(sf::Vector2u windowSize = {800,800 });
+	void FillBoard();
 	void Start();
 
 
@@ -41,6 +42,8 @@ private:
 
 	constexpr static PieceType _playerPieceType = PieceType::White;
 	constexpr static PieceType _AIPieceType = PieceType::Black;
+
+	const char *_title = "PseudoChess for DominiGames";
 };
 
 
