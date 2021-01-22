@@ -79,7 +79,8 @@ bool BoardChess::TryMovePiece(sf::Vector2u& destPos, sf::Vector2u& sourcePos)
 	auto destPiece = GetPieceByPosition(destPos);
 	auto sourcePiece = GetPieceByPosition(sourcePos);
 	
-	if (destPiece != sourcePiece && 
+	if (destPiece != sourcePiece &&
+		destPos.x < 8 && destPos.y < 8 &&
 		destPiece->getPieceType() == PieceType::Empty && 
 		sourcePiece->getPieceType() != PieceType::Empty)
 	{

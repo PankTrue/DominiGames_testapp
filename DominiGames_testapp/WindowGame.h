@@ -7,12 +7,6 @@
 
 class WindowGame
 {
-private:
-	sf::RenderWindow _window;
-	sf::Vector2u _windowSize;
-	std::string _windowTitle;
-	bool _isFullScreen;
-	bool _isDone;
 public:
 	WindowGame();
 	~WindowGame();
@@ -27,5 +21,11 @@ public:
 	void Draw(sf::Drawable& d);
 	sf::Vector2u &GetWindowSize();
 	sf::RenderWindow* GetWindowGame();
+private:
+	sf::RenderWindow _window;
+	sf::Vector2u _windowSize;
+	std::string _windowTitle;
+	bool _isFullScreen;
+	bool _isDone;
 };
 

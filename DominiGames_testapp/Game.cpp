@@ -16,26 +16,28 @@ void Game::Init()
 	_boardChess.SetImageBoard("Resource/board.png", _windowGame);
 	Piece::InitPeaces("Resource/w_pawn.png","Resource/b_pawn.png",0.6f,0.6f);
 
-
-	//fill board
+	//fill black pieces
 	for (int i = 0; i < 3; i++)
 		for (int j = 0; j < 3; j++)
-			_boardChess.GetPieceByPosition(j,i)->setPieceType(PieceType::Black);
+			_boardChess.GetPieceByPosition(j, i)->setPieceType(PieceType::Black);
 
+	//fill white pieces
 	for (int i = 7; i > 4; i--)
 		for (int j = 7; j > 4; j--)
-			_boardChess.GetPieceByPosition(j,i)->setPieceType(PieceType::White);
+			_boardChess.GetPieceByPosition(j, i)->setPieceType(PieceType::White);
+}
 
+void Game::Start()
+{
 
-	
 	while (_windowGame.IsOpen())
 	{
-		if(this->CheckGameEnd())
+		if (_gameQueueStep == GameQueueStep::AI)
 		{
-			std::cout << "Game end!" << std::endl;
-			break;
+			_pseudoAI.Play(_boardChess, _AIPieceType);
+			_gameQueueStep = GameQueueStep::Player;
 		}
-		
+
 		_windowGame.BeginDraw();
 
 		_windowGame.Draw(_boardChess.GetImageBoardSprite()); //draw background
@@ -44,12 +46,8 @@ void Game::Init()
 
 		this->DrawSelectedPiece();
 
-		if(_gameQueueStep == GameQueueStep::AI)
-		{
-			_pseudoAI.Play(_boardChess, _AIPieceType);
-			_gameQueueStep = GameQueueStep::Player;
-		}
-		
+
+
 
 		while (_windowGame.GetWindowGame()->pollEvent(e))
 		{
@@ -66,6 +64,12 @@ void Game::Init()
 							{
 								std::cout << "Moved to: " << destPos.x << "|" << destPos.y << std::endl;
 								_gameQueueStep = GameQueueStep::AI;
+								
+								if (this->CheckGameEnd())
+								{
+									std::cout << "Game end!" << std::endl;
+									_windowGame.Destroy();
+								}
 							}
 						}
 					}
@@ -85,13 +89,9 @@ void Game::Init()
 				_windowGame.GetWindowGame()->close();
 			}
 		}
-			
+
 		_windowGame.EndDraw();
 	}
-
-
-
-
 }
 
 void Game::DrawSelectedPiece()

@@ -19,6 +19,7 @@ public:
 	~Game();
 
 	void Init();
+	void Start();
 
 
 	void DrawSelectedPiece();
