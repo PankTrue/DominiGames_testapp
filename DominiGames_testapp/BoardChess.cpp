@@ -18,7 +18,6 @@ void BoardChess::DrawPieces(WindowGame &windowGame)
 	{
 		for (int j = 0; j < 8; j++)
 		{
-
 			if (_board[j][i].getIsSelected())
 			{
 				offset.x += _cellSize;
@@ -45,21 +44,64 @@ void BoardChess::DrawPieces(WindowGame &windowGame)
 
 }
 
-Piece* BoardChess::GetPieceByPosition(int x, int y)
+Piece* BoardChess::GetPieceByPosition(sf::Vector2u &pos)
 {
+	return &_board[pos.x][pos.y];
+}
+
+Piece* BoardChess::GetPieceByPosition(uint32_t x, uint32_t y)
+{
+	return &_board[x][y];
+}
+
+bool BoardChess::TryGetPiecePositionByCoordinates(int x, int y, sf::Vector2u &pos)
+{
+	sf::Vector2u result;
+	
 	float _x = ((x - _borderOffset.x) / _cellSize);
 	float _y = ((y - _borderOffset.y) / _cellSize);
 
 	if (_x >= 0 && _y >= 0 && _x <= 8 && _y <= 8)
 	{
-		if (std::abs(_x - (int)_x) <= 0.7f && 
+		if (std::abs(_x - (int)_x) <= 0.7f &&
 			std::abs(_y - (int)_y) <= 0.7f)
 		{
-			std::cout << std::floor(_x) << "|" << std::floor(_y) << std::endl;
-			return &_board[(int)std::floor(_x)][(int)std::floor(_y)];
+			pos.x = std::floor(_x);
+			pos.y = std::floor(_y);
+			return true;
 		}
 	}
-	return NULL;
+	return false;
+}
+
+bool BoardChess::TryMovePiece(sf::Vector2u& destPos, sf::Vector2u& sourcePos)
+{
+	auto destPiece = GetPieceByPosition(destPos);
+	auto sourcePiece = GetPieceByPosition(sourcePos);
+	
+	if (destPiece != sourcePiece && 
+		destPiece->getPieceType() == PieceType::Empty && 
+		sourcePiece->getPieceType() != PieceType::Empty)
+	{
+		if (std::abs((int)destPos.x - (int)sourcePos.x) == 1 &&
+			std::abs((int)destPos.y - (int)sourcePos.y) == 0 ||
+			std::abs((int)destPos.x - (int)sourcePos.x) == 0 &&
+			std::abs((int)destPos.y - (int)sourcePos.y) == 1)
+		{
+			this->MovePiece(destPiece, sourcePiece);
+			return true;
+		}
+	}
+	return false;
+}
+
+void BoardChess::MovePiece(Piece *dest, Piece *source)
+{
+	if(dest != NULL && source != NULL)
+	{
+		dest->setPieceType(source->getPieceType());
+		source->setPieceType(PieceType::Empty);
+	}
 }
 
 

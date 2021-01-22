@@ -14,14 +14,22 @@ public:
 
 	void DrawPieces(WindowGame &windowGame);
 
-	Piece *GetPieceByPosition(int x, int y);
+	Piece *GetPieceByPosition(sf::Vector2u& pos);
+	Piece *GetPieceByPosition(uint32_t x, uint32_t y);
 
+	bool TryGetPiecePositionByCoordinates(int x, int y, sf::Vector2u &pos);
+
+	bool TryMovePiece(sf::Vector2u &destPos, sf::Vector2u &sourcePos);
 
 	sf::Sprite &GetImageBoardSprite();
 
-	Piece _board[8][8];
 
 private:
+	Piece _board[8][8];
+	void MovePiece(Piece* dest, Piece* source);
+
+
+	
 	sf::Texture _boardTexture;
 	sf::Sprite _boardSprite;
 
