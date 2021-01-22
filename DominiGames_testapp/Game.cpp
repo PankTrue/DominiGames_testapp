@@ -45,50 +45,7 @@ void Game::Start()
 		_boardChess.DrawPieces(_windowGame);
 
 		this->DrawSelectedPiece();
-
-
-
-
-		while (_windowGame.GetWindowGame()->pollEvent(e))
-		{
-			if (e.type == sf::Event::MouseButtonReleased)
-			{
-				if (selectedPiece != NULL && selectedPiece->getIsSelected())
-				{
-					if (selectedPiece->getPieceType() == _playerPieceType)
-					{
-						sf::Vector2u destPos;
-						if (_boardChess.TryGetPiecePositionByCoordinates(e.mouseButton.x, e.mouseButton.y, destPos))
-						{
-							if (_boardChess.TryMovePiece(destPos, selectedPos))
-							{
-								std::cout << "Moved to: " << destPos.x << "|" << destPos.y << std::endl;
-								_gameQueueStep = GameQueueStep::AI;
-								
-								if (this->CheckGameEnd())
-								{
-									std::cout << "Game end!" << std::endl;
-									_windowGame.Destroy();
-								}
-							}
-						}
-					}
-					selectedPiece->setIsSelected(false);
-				}
-			}
-			else if (e.type == sf::Event::MouseButtonPressed)
-			{
-				if (_boardChess.TryGetPiecePositionByCoordinates(e.mouseButton.x, e.mouseButton.y, selectedPos))
-				{
-					selectedPiece = _boardChess.GetPieceByPosition(selectedPos);
-					selectedPiece->setIsSelected(true);
-				}
-			}
-			else if (e.type == sf::Event::Closed)
-			{
-				_windowGame.GetWindowGame()->close();
-			}
-		}
+		this->InputHandle();
 
 		_windowGame.EndDraw();
 	}
@@ -157,6 +114,50 @@ bool Game::CheckGameEnd()
 		return true;
 	}
 	return false;
+}
+
+void Game::InputHandle()
+{
+	while (_windowGame.GetWindowGame()->pollEvent(e))
+	{
+		if (e.type == sf::Event::MouseButtonReleased)
+		{
+			if (selectedPiece != NULL && selectedPiece->getIsSelected())
+			{
+				if (selectedPiece->getPieceType() == _playerPieceType)
+				{
+					sf::Vector2u destPos;
+					if (_boardChess.TryGetPiecePositionByCoordinates(e.mouseButton.x, e.mouseButton.y, destPos))
+					{
+						if (_boardChess.TryMovePiece(destPos, selectedPos))
+						{
+							std::cout << "Moved to: " << destPos.x << "|" << destPos.y << std::endl;
+							_gameQueueStep = GameQueueStep::AI;
+
+							if (this->CheckGameEnd())
+							{
+								std::cout << "Game end!" << std::endl;
+								_windowGame.Destroy();
+							}
+						}
+					}
+				}
+				selectedPiece->setIsSelected(false);
+			}
+		}
+		else if (e.type == sf::Event::MouseButtonPressed)
+		{
+			if (_boardChess.TryGetPiecePositionByCoordinates(e.mouseButton.x, e.mouseButton.y, selectedPos))
+			{
+				selectedPiece = _boardChess.GetPieceByPosition(selectedPos);
+				selectedPiece->setIsSelected(true);
+			}
+		}
+		else if (e.type == sf::Event::Closed)
+		{
+			_windowGame.GetWindowGame()->close();
+		}
+	}
 }
 
 

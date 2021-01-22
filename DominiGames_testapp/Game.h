@@ -23,23 +23,24 @@ public:
 
 
 	void DrawSelectedPiece();
-
 	bool CheckGameEnd();
 
 	
 private:
-	BoardChess _boardChess;
-	WindowGame _windowGame;
-	PseudoAI  _pseudoAI;
+	void InputHandle();
 
-	GameQueueStep _gameQueueStep;
+	
+	BoardChess		_boardChess;
+	WindowGame		_windowGame;
+	PseudoAI		_pseudoAI;
+	GameQueueStep	_gameQueueStep;
+	sf::Event		e;
+	Piece*			selectedPiece = NULL;
+	sf::Vector2u	selectedPos;
+
 
 	constexpr static PieceType _playerPieceType = PieceType::White;
 	constexpr static PieceType _AIPieceType = PieceType::Black;
-
-	sf::Event e;
-	Piece* selectedPiece = NULL;
-	sf::Vector2u selectedPos;
 };
 
 

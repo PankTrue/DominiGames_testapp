@@ -63,8 +63,8 @@ bool BoardChess::TryGetPiecePositionByCoordinates(int x, int y, sf::Vector2u &po
 
 	if (_x >= 0 && _y >= 0 && _x <= 8 && _y <= 8)
 	{
-		if (std::abs(_x - (int)_x) <= 0.7f &&
-			std::abs(_y - (int)_y) <= 0.7f)
+		if (std::abs(_x - (int)_x) <= 0.75f &&
+			std::abs(_y - (int)_y) <= 0.75f)
 		{
 			pos.x = std::floor(_x);
 			pos.y = std::floor(_y);
