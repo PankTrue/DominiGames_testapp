@@ -26,13 +26,13 @@ void BoardChess::DrawPieces(WindowGame &windowGame)
 
 			if (_board[j][i].getPieceType() == PieceType::White)
 			{
-				Piece::WhitePeace.setPosition(offset.x, offset.y);
-				windowGame.Draw(Piece::WhitePeace);
+				Piece::WhitePiece.setPosition(offset.x, offset.y);
+				windowGame.Draw(Piece::WhitePiece);
 			}
 			else if (_board[j][i].getPieceType() == PieceType::Black)
 			{
-				Piece::BlackPeace.setPosition(offset.x, offset.y);
-				windowGame.Draw(Piece::BlackPeace);
+				Piece::BlackPiece.setPosition(offset.x, offset.y);
+				windowGame.Draw(Piece::BlackPiece);
 			}
 
 			offset.x += _cellSize.x;
@@ -41,7 +41,6 @@ void BoardChess::DrawPieces(WindowGame &windowGame)
 		offset.x = _borderOffset.x;
 		offset.y += _cellSize.y;
 	}
-
 }
 
 Piece* BoardChess::GetPieceByPosition(sf::Vector2u &pos)
@@ -63,8 +62,8 @@ bool BoardChess::TryGetPiecePositionByCoordinates(int x, int y, sf::Vector2u &po
 
 	if (_x >= 0 && _y >= 0 && _x <= 8 && _y <= 8)
 	{
-		if (std::abs(_x - (int)_x) <= 0.75f &&
-			std::abs(_y - (int)_y) <= 0.75f)
+		if (std::abs(_x - static_cast<int>(_x)) <= 0.75f &&
+			std::abs(_y - static_cast<int>(_y)) <= 0.75f)
 		{
 			pos.x = std::floor(_x);
 			pos.y = std::floor(_y);
@@ -84,10 +83,10 @@ bool BoardChess::TryMovePiece(sf::Vector2u& destPos, sf::Vector2u& sourcePos)
 		destPiece->getPieceType() == PieceType::Empty && 
 		sourcePiece->getPieceType() != PieceType::Empty)
 	{
-		if (std::abs((int)destPos.x - (int)sourcePos.x) == 1 &&
-			std::abs((int)destPos.y - (int)sourcePos.y) == 0 ||
-			std::abs((int)destPos.x - (int)sourcePos.x) == 0 &&
-			std::abs((int)destPos.y - (int)sourcePos.y) == 1)
+		if (std::abs(static_cast<int>(destPos.x) - static_cast<int>(sourcePos.x)) == 1 &&
+			std::abs(static_cast<int>(destPos.y) - static_cast<int>(sourcePos.y)) == 0 ||
+			std::abs(static_cast<int>(destPos.x) - static_cast<int>(sourcePos.x)) == 0 &&
+			std::abs(static_cast<int>(destPos.y) - static_cast<int>(sourcePos.y)) == 1)
 		{
 			this->MovePiece(destPiece, sourcePiece);
 			return true;
@@ -98,11 +97,11 @@ bool BoardChess::TryMovePiece(sf::Vector2u& destPos, sf::Vector2u& sourcePos)
 
 void BoardChess::CalcCellSizeAndBorderOffset(sf::Vector2u& windowSize)
 {
-	_cellSize.x = (float)windowSize.x / 9.0f;
-	_cellSize.y = (float)windowSize.y / 9.0f;
+	_cellSize.x = static_cast<float>(windowSize.x) / 9.0f;
+	_cellSize.y = static_cast<float>(windowSize.y) / 9.0f;
 
-	_borderOffset.x = (float)windowSize.x / 13.0f;
-	_borderOffset.y = (float)windowSize.y / 15.0f;
+	_borderOffset.x = static_cast<float>(windowSize.x) / 13.0f;
+	_borderOffset.y = static_cast<float>(windowSize.y) / 15.0f;
 }
 
 void BoardChess::MovePiece(Piece *dest, Piece *source)
@@ -113,7 +112,6 @@ void BoardChess::MovePiece(Piece *dest, Piece *source)
 		source->setPieceType(PieceType::Empty);
 	}
 }
-
 
 sf::Sprite& BoardChess::GetImageBoardSprite()
 {

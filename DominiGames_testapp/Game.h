@@ -23,12 +23,11 @@ public:
 	void Start();
 
 
-	void DrawSelectedPiece();
-	bool CheckGameEnd();
-
 	
 private:
 	void InputHandle();
+	void DrawSelectedPiece();
+	bool CheckGameEnd();
 
 	
 	BoardChess		_boardChess;
@@ -36,7 +35,7 @@ private:
 	PseudoAI		_pseudoAI;
 	GameQueueStep	_gameQueueStep;
 	sf::Event		e;
-	Piece*			selectedPiece = NULL;
+	Piece*			selectedPiece;
 	sf::Vector2u	selectedPos;
 
 

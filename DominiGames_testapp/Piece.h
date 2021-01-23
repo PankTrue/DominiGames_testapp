@@ -13,7 +13,7 @@ enum PieceType
 class Piece
 {
 public:
-	Piece(PieceType peaceType);
+	Piece(PieceType pieceType);
 	Piece();
 
 	sf::Sprite* getPieceSprite();
@@ -24,14 +24,13 @@ public:
 	bool getIsSelected();
 	void setIsSelected(bool selected);
 
-	static void InitPeaces(std::string whitePeacePath, std::string blackPeacePath, float scaleX, float scaleY);
 
-	static sf::Sprite WhitePeace;
-	static sf::Sprite BlackPeace;
+	static void InitPieces(std::string whitePiecePath, std::string blackPiecePath, float scaleX, float scaleY);
+
+	static sf::Sprite WhitePiece;
+	static sf::Sprite BlackPiece;
 
 private:
 	PieceType _pieceType;
 	bool _isSelected;
-
-
 };

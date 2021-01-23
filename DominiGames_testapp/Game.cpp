@@ -3,6 +3,7 @@
 Game::Game()
 {
 	_gameQueueStep = static_cast<GameQueueStep>(rand() % 2);
+	selectedPiece = NULL;
 }
 Game::~Game(){ }
 
@@ -15,7 +16,8 @@ void Game::Init(sf::Vector2u windowSize)
 	_boardChess.CalcCellSizeAndBorderOffset(_windowGame.GetWindowSize());
 	
 	_boardChess.SetImageBoard("Resource/board.png", _windowGame);
-	Piece::InitPeaces("Resource/w_pawn.png","Resource/b_pawn.png",
+	
+	Piece::InitPieces("Resource/w_pawn.png","Resource/b_pawn.png",
 		_windowGame.GetWindowSize().x / 1500.0f, _windowGame.GetWindowSize().y / 1400.0f);
 }
 
@@ -60,12 +62,12 @@ void Game::DrawSelectedPiece()
 {
 	if (selectedPiece != NULL && selectedPiece->getIsSelected())
 	{
-		auto mousePosition = sf::Mouse::getPosition(*(sf::Window*)(_windowGame.GetWindowGame()));
+		auto mousePosition = sf::Mouse::getPosition(*static_cast<sf::Window*>(_windowGame.GetWindowGame()));
 		auto piece = selectedPiece->getPieceSprite();
 		if (piece != NULL)
 		{
-			piece->setPosition(	mousePosition.x - (float)_windowGame.GetWindowSize().x / 32.0f,
-								mousePosition.y - (float)_windowGame.GetWindowSize().y / 32.0f);
+			piece->setPosition(	mousePosition.x - static_cast<float>(_windowGame.GetWindowSize().x) / 32.0f,
+								mousePosition.y - static_cast<float>(_windowGame.GetWindowSize().y) / 32.0f);
 			_windowGame.Draw(*piece);
 		}
 	}

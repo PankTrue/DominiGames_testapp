@@ -1,20 +1,20 @@
 #include "Piece.h"
 
-sf::Sprite Piece::WhitePeace;
-sf::Sprite Piece::BlackPeace;
+sf::Sprite Piece::WhitePiece;
+sf::Sprite Piece::BlackPiece;
 
 Piece::Piece() : _pieceType(PieceType::Empty), _isSelected(false) { }
 
 sf::Sprite* Piece::getPieceSprite()
 {
 	if (_pieceType == PieceType::Black)
-		return &BlackPeace;
+		return &BlackPiece;
 	else if (_pieceType == PieceType::White)
-		return &WhitePeace;
+		return &WhitePiece;
 	else return NULL;
 }
 
-Piece::Piece(PieceType peaceType) : _pieceType(peaceType), _isSelected(false){ }
+Piece::Piece(PieceType pieceType) : _pieceType(pieceType), _isSelected(false){ }
 
 PieceType Piece::getPieceType()
 {
@@ -39,15 +39,15 @@ void Piece::setIsSelected(bool selected)
 
 
 
-void Piece::InitPeaces(std::string whitePiecePath, std::string blackPiecePath, float scaleX, float scaleY)
+void Piece::InitPieces(std::string whitePiecePath, std::string blackPiecePath, float scaleX, float scaleY)
 {
 	static sf::Texture blackTexture, whiteTexture;
 
 	blackTexture.loadFromFile(blackPiecePath);
 	whiteTexture.loadFromFile(whitePiecePath);
-	BlackPeace.setTexture(blackTexture);
-	WhitePeace.setTexture(whiteTexture);
+	BlackPiece.setTexture(blackTexture);
+	WhitePiece.setTexture(whiteTexture);
 
-	BlackPeace.setScale(scaleX, scaleY);
-	WhitePeace.setScale(scaleX, scaleY);
+	BlackPiece.setScale(scaleX, scaleY);
+	WhitePiece.setScale(scaleX, scaleY);
 }
